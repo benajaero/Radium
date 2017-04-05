@@ -1,0 +1,19 @@
+{
+  "name": "radium",
+  "version": "1.0.0",
+  "description": "A raycaster written in javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blaze349/Radium.git"
+  },
+  "author": "Blaze349",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Blaze349/Radium/issues"
+  },
+  "homepage": "https://github.com/Blaze349/Radium#readme"
+}
