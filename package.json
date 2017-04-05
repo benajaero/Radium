@@ -19,11 +19,19 @@
   },
   "homepage": "https://github.com/Blaze349/Radium#readme",
   "devDependencies": {
+    "babel": "^6.23.0",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.3.2",
+    "babel-preset-es2015": "^6.24.0",
     "uglify-js": "^2.8.21",
     "uglifyjs": "^2.4.10",
     "uglifyjs-webpack-plugin": "^0.4.1",
     "webpack": "^2.3.3"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "babel-runtime": "^6.23.0"
   }
 }

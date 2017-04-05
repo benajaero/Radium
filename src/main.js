@@ -1,4 +1,6 @@
 const mapClass = require('./map')
+const direction = require('./util/direction')
+const player = require('./player')
 
 var mapLevel = [
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
