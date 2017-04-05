@@ -1,6 +1,7 @@
 const mapClass = require('./map')
 const direction = require('./util/direction')
 const player = require('./player')
+const camera = require('./camera')
 
 var mapLevel = [
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -30,9 +31,27 @@ var mapLevel = [
 ]
 var map = new mapClass(24, 24, mapLevel) 
 
+var Player = new player(0,0, new Direction(0,0))
+var Camera = new camera(0,0,0,0)
+
 const c = $('#canvas')
 const ctx = c.getContext("2d")
+
+var time = 0
+var lastTime = 0
+
 function start() {
+    //Player setup
+    Player.posX = 20
+    Player.posY = 10
+    Player.dir.x = -1
+    Player.dir.y = 0
+    
+    //Camera setup
+    Camera.planeX = 0
+    Camera.planeY = 0.66
+    
+    
     
 }
 function loop() {
