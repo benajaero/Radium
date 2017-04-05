@@ -4,7 +4,9 @@
   "description": "A raycaster written in javascript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/Blaze349/Radium/issues"
   },
-  "homepage": "https://github.com/Blaze349/Radium#readme"
+  "homepage": "https://github.com/Blaze349/Radium#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "uglify-js": "^2.8.21",
+    "uglifyjs": "^2.4.10",
+    "uglifyjs-webpack-plugin": "^0.4.1",
+    "webpack": "^2.3.3"
+  }
 }
