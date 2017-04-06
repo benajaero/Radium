@@ -20,19 +20,23 @@ class Vector {
         vec1.y -= vec2.y
     }
     static mult(vec1, value) {
+        //Multiplication by a scalar
         vec1.x = vec1.x * value
         vec2.y = vec2.y * value
     }
     static div(vec1, value) {
+        //Division by a scalar
         vec1.x = vec1.x / value
         vec2.y = vec2.y / value
     }
     
-    
-    
-    
     static normalize(vec1) {
-        
+        /*Pretty simply stuff. We want to change our magnitude to 1. 
+        To get any number to one you divide it by itself. It is inversely proportial to 1
+        If we divide the hypotenuse by a specific amount the sides are divided by the same amount. */
+        length = vec1.length()
+        vec1.x = vec1.x / length()
+        vec1.y = vec1.y / length()
     }
 }
 
