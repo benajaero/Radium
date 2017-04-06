@@ -15,8 +15,12 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: { 
+          plugins: [
+            'transform-runtime'
+          ],
           presets: [ 
-            'es2015' 
+            'es2015',
+            'stage-2'
           ] 
         }
       }
