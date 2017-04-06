@@ -30,12 +30,24 @@ var mapLevel = [
 ]
 var map = new mapClass(24, 24, mapLevel) 
 
+const BLOCK_DIMENSION = 64
+const PLAYER_HEIGHT = BLOCK_DIMENSION / 2
+const FOV = 60
+
+var canvasHeight = 512
+var canvasWidth = 256
+
+var playerX = 1
+var playerY = 1
+
 
 const c = $('#canvas')
 const ctx = c.getContext("2d")
 
-var time = 0
-var lastTime = 0
+
+$(document).ready(() => {
+  loop()
+})
 
 function start() {
     
@@ -43,6 +55,9 @@ function start() {
     
 }
 function loop() {
+  start()
+  update()
+  draw()
     
 }
 function update() {
