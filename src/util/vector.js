@@ -11,23 +11,21 @@ class Vector {
     
     static add(vec1, vec2) {
         //The order is not important here
-        vec1.x += vec2.x
-        vec1.y += vec2.y
+        return new Vector(vec1.x + vec2.x, vec1.y + vec2.y)
+        
+        
     }
     static sub(vec1, vec2) {
         //The order is very important here The one to subtract off off goes first
-        vec1.x -= vec2.x
-        vec1.y -= vec2.y
+        return new Vector(vec1.x - vec2.x, vec1.y - vec2.y)
     }
     static mult(vec1, value) {
         //Multiplication by a scalar
-        vec1.x = vec1.x * value
-        vec2.y = vec2.y * value
+        return new Vector(vec1.x * value.x, vec1.y * value.y)
     }
     static div(vec1, value) {
         //Division by a scalar
-        vec1.x = vec1.x / value
-        vec2.y = vec2.y / value
+        return new Vector(vec1.x / value.x, vec1.y / value.y)
     }
     
     static normalize(vec1) {

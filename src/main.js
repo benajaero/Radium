@@ -1,7 +1,7 @@
 const Map = require('./map')
 const Convert = require('./util/convert.js')
 const Player = require('./player')
-
+const Vector = require('./util/vector')
 var mapLevel = [
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -28,85 +28,126 @@ var mapLevel = [
   [1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ]
-var map = new Map(24, 24, mapLevel) 
+var map = new Map(24, 24, mapLevel)
 
-var player = new Player(1,2,45)
-const TILE_SIZE = 64
-const playerHeight = TILE_SIZE / 2
-const FOV = 60
+console.log("Map initialized")
 
-const canvasWidth = 512
-const canvasHeight = 256
-const canvasDistance = (512 / 2) / Math.tan(Convert.toRadians(30))
-const rayAngleDifference = FOV/canvasWidth
 
-const c = $('#canvas')
-const ctx = c.getContext("2d")
+
+
+
+
+
 
 
 $(document).ready(() => {
+  var player = new Vector(22,12)
+  var direction = new Vector(-1,0)
+  var cameraPlane = new Vector(0,0.66)
+  var c=document.getElementById("myCanvas");
+  const ctx = c.getContext("2d")
+  console.log("Starting...")
+  
+  function loop() {
+    var p = 0
+    console.log("Looping...")
+    function update() {
+    console.log("Updating")
+  
+    for (var x = 0; x < 512; x++) {
+      
+      var cameraX = 2 * x/512.0 -1
+      var ray = new Vector(player.x, player.y)
+      var rayDir = new Vector(Vector.mult(Vector.add(direction.x, cameraPlane.x), cameraX), Vector.mult(Vector.add(direction.y, cameraPlane.y), cameraX))
+      
+      var mapPos = new Vector(Math.floor(ray.x), Math.floor(ray.y))
+      
+      var sideDist = new Vector(0,0)
+      
+      var deltaDist = new Vector(0,0)
+      deltaDist.x = Math.sqrt(1 + (rayDir.y * rayDir.y) / (rayDir.x * rayDir.x))
+      deltaDist.y = Math.sqrt(1 + (rayDir.x * rayDir.x) / (rayDir.y * rayDir.y))
+      
+      var rayLengthDist = 0.0
+      
+      var step = new Vector(0,0)
+      
+      var hit = 0
+      var side = null
+      
+      if (rayDir.x < 0) {
+        step.x = -1
+        sideDist.x = (rayPos.x - mapPos.x) * deltaDist.x
+      } else if (rayDir.x > 0){
+        step.x = 1
+        sideDist.x = (mapPos.x + 1.0 - rayPos.x) * deltaDist.x
+      }
+      if (rayDir.y < 0) {
+        step.y = -1
+        sideDist.y = (rayPos.y - mapPos.y) * deltaDist.y
+      } else if (rayDir.y > 0) {
+        step.y = 1
+        sideDist.y = (mapPos.y + 1.0 - rayPos.y) * deltaDist.y
+      }
+      
+      while(hit == 0) {
+        
+        if (sideDist.x < sideDist.y) {
+          sideDist.x += deltaDist.x
+          mapPos.x += step.x
+          side =0
+        } 
+        else {
+          sideDist.y += deltaDist.y
+          mapPos.y += step.y
+          side = 1
+        }
+        
+        if (map.mapArr[mapPos.x][mapPos.y]) {
+          hit = 1
+        }
+        
+      }
+      
+      if (side == 0) {
+        rayLengthDist = (mapPos.x - ray.x + (1 - step.x) / 2) / rayDir.x
+      } 
+      else {
+        rayLengthDist = (mapPos.y - ray.y + (1 - step.y) / 2) / rayDir.y
+      }
+      function draw(length, x, side) {
+          console.log("Drawing...")
+          var lineHeight = Math.floor(256 / length)
+          var drawStart = (0-lineheight) / 2 + 256 / 2
+          if (drawStart < 0) {
+            drawStart = 0
+          }
+          var drawEnd = lineheight / 2 + 256 / 2
+          if (drawEnd >= 256) {
+            drawEnd = 255
+          }
+          var color = "#FF0000"
+          if (side == 1) color = "#ff8989"
+          
+          ctx.strokeStyle = color
+          
+          ctx.beginPath()
+          ctx.moveTo(x, drawStart)
+          ctx.lineTo(x, drawEnd)
+          ctx.stroke()
+        }
+
+      draw(rayLengthDist, x, side)
+    }
+  }
+    update()
+    while(p == 0) {
+      
+      update()
+    }
+  
+  }
+  
   loop()
 })
 
-function start() {
-    
-    
-    
-}
-function loop() {
-  start()
-  update()
-  draw()
-    
-}
-function update() {
-    
-}
-function draw() {
-    
-}
-
-function traceAllRays() {
-  var array = []
-  var cangle = FOV / 2
-  for (i = 0; i < 512; i++) {
-    array += traceRay(x, y, cangle)
-    cangle += rayAngleDifference
-  }
-}
-function traceRay(x, y, angle) {
-  var A = new Vector()
-  if (true) {
-    A.y = Math.floor((player.y * 64)/TILE_SIZE) * TILE_SIZE -1
-  } else {
-    A.y = Math.floor((player.y * 64)/TILE_SIZE) * TILE_SIZE + TILE_SIZE
-  }
-  A.x = player.x + (player.y -A.y)/Math.tan(angle)
-  
-  if (map.mapArr[toGrid(A.x)][toGrid(A.y)] > 0) {
-    return A
-  } else {
-    var Ya = 1
-    
-    if(true) {
-      Ya = -64
-    } else {
-      Ya = 64
-    }
-    var Xa = TILE_SIZE/Math.tan(angle)
-    var C = new Vector(A.x, A.y)
-    
-    for (i = 0; i <= map.mapArr.length; i++) {
-      C.x = C.x + Xa
-      C.y = C.y + Ya
-      if (map.mapArr[toGrid(C.x)][toGrid(C.y)] > 0) {
-        return C
-      }
-    }
-    return new Vector(null, null)
-  }
-}
-
-function toGrid(value) {
-  return value/TILE_SIZE
-}
